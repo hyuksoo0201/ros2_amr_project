@@ -1,0 +1,105 @@
+action_name: pinky1/actions/move_to_pid
+default_timeout_sec: 60.0
+stop_on_failure: true
+
+waypoints:
+  # Keep `name` unique if you use selected_waypoints (e.g. selected_waypoints:=A,C).
+  # map size: 1.7x0.7
+
+
+  # - name: A
+  #   frame_id: map
+  #   x: 0.10
+  #   y: 0.45
+  #   z: 0.0
+  #   # Optional orientation:
+  #   # qx: 0.0
+  #   # qy: 0.0
+  #   # qz: 1.0
+  #   # qw: 0.0
+  #   timeout_sec: 60.0
+
+  # - name: B
+  #   frame_id: map
+  #   x: 1.60
+  #   y: 0.45
+  #   z: 0.0
+  #   # Optional orientation:
+  #   # qx: 0.0
+  #   # qy: 0.0
+  #   # qz: 1.0
+  #   # qw: 0.0
+  #   timeout_sec: 60.0
+
+  # - name: C
+  #   frame_id: map
+  #   x: 0.7
+  #   y: 0.2
+  #   z: 0.0
+  #   # Optional orientation:
+  #   # qx: 0.0
+  #   # qy: 0.0
+  #   # qz: 0.0
+  #   # qw: 1.0
+  #   timeout_sec: 60.0
+
+
+  - name: A
+    frame_id: map
+    x: 0.10
+    y: 0.45
+    z: 0.0
+    # Optional orientation:
+    # qx: 0.0
+    # qy: 0.0
+    # qz: 1.0
+    # qw: 0.0
+    timeout_sec: 60.0
+
+  - name: B
+    frame_id: map
+    x: 0.50
+    y: 0.45
+    z: 0.0
+    # Optional orientation:
+    # qx: 0.0
+    # qy: 0.0
+    # qz: 1.0
+    # qw: 0.0
+    timeout_sec: 60.0
+
+  - name: C
+    frame_id: map
+    x: 0.90
+    y: 0.45
+    z: 0.0
+    # Optional orientation:
+    # qx: 0.0
+    # qy: 0.0
+    # qz: 1.0
+    # qw: 0.0
+    timeout_sec: 60.0
+
+  - name: D
+    frame_id: map
+    x: 1.30
+    y: 0.45
+    z: 0.0
+    # Optional orientation:
+    # qx: 0.0
+    # qy: 0.0
+    # qz: 1.0
+    # qw: 0.0
+    timeout_sec: 60.0
+
+  - name: E
+    frame_id: map
+    x: 1.7
+    y: 0.45
+    z: 0.0
+    # Optional orientation:
+    # qx: 0.0
+    # qy: 0.0
+    # qz: 0.0
+    # qw: 1.0
+    timeout_sec: 60.0
