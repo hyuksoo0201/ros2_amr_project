@@ -38,7 +38,16 @@ Optional selected waypoint names:
 
 ```bash
 ros2 launch hs_topview waypoint_sender.launch.py \
-  selected_waypoints:=A,C,F
+  selected_waypoints:=A,C,E
+```
+
+Optional A* planning mode:
+
+```bash
+ros2 launch hs_topview waypoint_sender.launch.py \
+  use_astar:=true \
+  start_waypoint:=R1C1 \
+  goal_waypoint:=R3C5
 ```
 
 ## Inputs and outputs
@@ -53,6 +62,7 @@ ros2 launch hs_topview waypoint_sender.launch.py \
 
 - Single goal topic mode: publish one `PoseStamped` to `/goal_pose`.
 - Sequential waypoint mode: run `waypoint_sender` and it sends `MoveToPID` goals in order (e.g. `current -> A -> B`).
+- A* mode: run `waypoint_sender` with `use_astar:=true`; sender computes `start_waypoint -> goal_waypoint` path on `astar_waypoints` grid and sends goals sequentially.
 
 Single goal example:
 
@@ -73,7 +83,17 @@ Selected waypoint example:
 ```bash
 ros2 run hs_topview waypoint_sender --ros-args \
   -p waypoints_file:=/home/pinky/pinky_topview_ws/src/hs_topview/params/waypoints.yaml \
-  -p selected_waypoints:=A,C,F
+  -p selected_waypoints:=A,C,E
+```
+
+A* mode example:
+
+```bash
+ros2 run hs_topview waypoint_sender --ros-args \
+  -p waypoints_file:=/home/pinky/pinky_topview_ws/src/hs_topview/params/waypoints.yaml \
+  -p use_astar:=true \
+  -p start_waypoint:=R1C1 \
+  -p goal_waypoint:=R3C5
 ```
 
 ## Waypoint YAML schema
@@ -90,16 +110,25 @@ waypoints:
     x: 0.10
     y: 0.45
     z: 0.0
-    # Optional orientation:
-    # qx: 0.0
-    # qy: 0.0
-    # qz: 1.0
-    # qw: 0.0
     timeout_sec: 60.0
-  - name: B
+
+astar_grid:
+  rows: 3
+  cols: 5
+  naming: row_col
+  connectivity: 4
+astar_blocked_waypoints: [R2C3]
+astar_waypoints:
+  - name: R1C1
     frame_id: map
-    x: 0.30
-    y: 0.20
+    x: 0.10
+    y: 0.10
+    z: 0.0
+    timeout_sec: 60.0
+  - name: R1C2
+    frame_id: map
+    x: 0.50
+    y: 0.10
     z: 0.0
 ```
 
@@ -120,6 +149,18 @@ Selected waypoint policy:
 - If YAML contains duplicated waypoint names, sender exits with failure.
 - Repeated names in `selected_waypoints` are allowed (example: `A,B,A`).
 
+A* mode policy:
+
+- Enable with `use_astar: true` and set `start_waypoint`, `goal_waypoint`.
+- In A* mode, sender ignores regular `waypoints` and uses only `astar_waypoints`.
+- `selected_waypoints` is ignored while A* mode is active.
+- `astar_grid.naming` must be `row_col`; astar waypoint names must match `R{row}C{col}`.
+- `astar_grid.connectivity` currently supports only `4` (up/down/left/right).
+- `astar_blocked_waypoints` is optional and blocks A* nodes by waypoint name.
+- Start/goal cannot be blocked.
+- If no path exists, sender exits with failure.
+- If start equals goal, sender exits successfully without sending goals.
+
 Final align behavior:
 
 - `point_move.yaml` parameter `enable_final_align` controls final in-place yaw alignment.
@@ -132,6 +173,7 @@ Failure behavior:
 - Invalid quaternion (`norm≈0`), goal reject, timeout, or abort:
   - `stop_on_failure: true` -> stop immediately.
   - `stop_on_failure: false` -> continue to next waypoint.
+- A* validation failure or A* no-path result -> stop immediately.
 - Empty waypoint list -> exit with warning.
 
 ## Key parameters
@@ -140,3 +182,8 @@ Failure behavior:
 - `pose_timeout_sec`: emergency stop timeout for stale `/amr_pose`
 - `pose_frame_id`, `goal_frame_id`: frame validation
 - `ignore_goal_topic_during_action`: ignore `/goal_pose` while Action is active
+- `use_astar`: enable A* planning in `waypoint_sender`
+- `start_waypoint`, `goal_waypoint`: A* start/goal node names
+- `astar_grid`: A* grid metadata (`rows`, `cols`, `naming`, `connectivity`)
+- `astar_waypoints`: A* node list (must use `R{row}C{col}` names)
+- `astar_blocked_waypoints`: blocked nodes for A* planning
