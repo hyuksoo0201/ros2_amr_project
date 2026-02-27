@@ -32,7 +32,7 @@ pinky_topview_ws/
 
 ## 대표 실행 예시
 
-터미널 0(외부 topview pose 노드 실행):
+터미널 1(외부 topview pose 노드 실행):
 
 ```bash
 # Required: ros2_topview를 ~/topview_ws로 클론한 경우에 실행합니다.
