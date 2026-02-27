@@ -24,6 +24,12 @@ pinky_topview_ws/
    └─ action/MoveToPID.action
 ```
 
+### 주요 파일 위치
+
+- Launch 파일: `src/hs_topview/launch/point_move.launch.py`, `src/hs_topview/launch/waypoint_sender.launch.py`
+- 파라미터 파일: `src/hs_topview/params/point_move.yaml`, `src/hs_topview/params/waypoints.yaml`
+- 노드 구현: `src/hs_topview/hs_topview/point_move.py`, `src/hs_topview/hs_topview/waypoint_sender.py`
+
 ## 대표 실행 예시
 
 터미널 1(선택 사항: 외부 로봇 bringup 실행):
