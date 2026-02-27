@@ -3,13 +3,6 @@
 Top-view camera 기반 ROS2 AMR waypoint 주행 프로젝트입니다.
 이 문서는 프로젝트를 빠르게 실행하는 입문 가이드입니다.
 
-## 🎬 Demo Video
-
-[![AMR Demo](https://img.youtube.com/vi/영상ID/0.jpg)](https://youtu.be/영상ID)
-https://youtu.be/w6-kLE-hayw
-https://youtu.be/661OqRiBsT8
-https://youtu.be/c797Rr_zyEI
-
 ## 🎬 Demo Videos
 
 <p align="center">
