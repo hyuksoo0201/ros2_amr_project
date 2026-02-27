@@ -24,49 +24,47 @@ pinky_topview_ws/
    └─ action/MoveToPID.action
 ```
 
-## 빠른 시작
+## 대표 실행 예시
+
+터미널 1(로봇 노드 실행):
+
+```bash
+# Optional: ros2_pinky_pro를 ~/pinky_pro로 클론한 경우에만 실행
+# git clone https://github.com/hyuksoo0201/ros2_pinky_pro.git ~/pinky_pro
+cd ~/pinky_pro
+colcon build
+source install/setup.bash
+ros2 launch pinky_bringup bringup_robot.launch.xml
+```
+
+터미널 2(이동 노드 실행):
 
 ```bash
 cd ~/pinky_topview_ws
-colcon build --packages-select pinky_interfaces hs_topview
+colcon build
 source install/setup.bash
-```
-
-터미널 1:
-
-```bash
-source ~/pinky_topview_ws/install/setup.bash
 ros2 launch hs_topview point_move.launch.py
 ```
 
-터미널 2:
+터미널 3-1(A*_waypoints 노드 실행):
 
 ```bash
-source ~/pinky_topview_ws/install/setup.bash
-ros2 launch hs_topview waypoint_sender.launch.py
-```
+cd ~/pinky_topview_ws
+source install/setup.bash
+ros2 launch hs_topview waypoint_sender.launch.py use_astar:=true start_waypoint:=R5C6 goal_waypoint:=R2C2
 
-## 대표 실행 예시
-
-기본 waypoint 전체 실행:
-
-```bash
-ros2 launch hs_topview waypoint_sender.launch.py
-```
-
-선택 waypoint 실행:
-
-```bash
-ros2 launch hs_topview waypoint_sender.launch.py selected_waypoints:=A,C,E
-```
-
-A* 실행:
-
-```bash
 ros2 launch hs_topview waypoint_sender.launch.py \
   use_astar:=true \
   start_waypoint:=R1C1 \
   goal_waypoint:=R3C5
+```
+
+터미널 3-2(selected_waypoints 노드 실행):
+
+```bash
+cd ~/pinky_topview_ws
+source install/setup.bash
+ros2 launch hs_topview waypoint_sender.launch.py selected_waypoints:=A,C,E
 ```
 
 ## 핵심 런타임 인터페이스
