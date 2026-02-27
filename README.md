@@ -3,6 +3,27 @@
 Top-view camera 기반 ROS2 AMR waypoint 주행 프로젝트입니다.
 이 문서는 프로젝트를 빠르게 실행하는 입문 가이드입니다.
 
+## 🎬 Demo Video
+
+[![AMR Demo](https://img.youtube.com/vi/영상ID/0.jpg)](https://youtu.be/영상ID)
+https://youtu.be/w6-kLE-hayw
+https://youtu.be/661OqRiBsT8
+https://youtu.be/c797Rr_zyEI
+
+## 🎬 Demo Videos
+
+<p align="center">
+  <a href="https://youtu.be/w6-kLE-hayw">
+    <img src="https://img.youtube.com/vi/w6-kLE-hayw/0.jpg" width="30%">
+  </a>
+  <a href="https://youtu.be/661OqRiBsT8">
+    <img src="https://img.youtube.com/vi/661OqRiBsT8/0.jpg" width="30%">
+  </a>
+  <a href="https://youtu.be/c797Rr_zyEI">
+    <img src="https://img.youtube.com/vi/c797Rr_zyEI/0.jpg" width="30%">
+  </a>
+</p>
+
 ## 개요
 
 - `hs_topview`: 주행 제어 노드(`point_move`) + waypoint 전송 노드(`waypoint_sender`)
