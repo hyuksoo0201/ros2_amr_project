@@ -32,10 +32,21 @@ pinky_topview_ws/
 
 ## 대표 실행 예시
 
-터미널 1(선택 사항: 외부 로봇 bringup 실행):
+터미널 0(외부 topview pose 노드 실행):
 
 ```bash
-# Optional: ros2_pinky_pro를 ~/pinky_pro로 클론한 경우에만 실행합니다.
+# Required: ros2_topview를 ~/topview_ws로 클론한 경우에 실행합니다.
+# git clone https://github.com/hyuksoo0201/ros2_topview.git ~/topview_ws
+cd ~/topview_ws
+colcon build
+source install/setup.bash
+ros2 run topview_localization topview_pose_node
+```
+
+터미널 2(외부 로봇 bringup 실행):
+
+```bash
+# Required: ros2_pinky_pro를 ~/pinky_pro로 클론한 경우에만 실행합니다.
 # git clone https://github.com/hyuksoo0201/ros2_pinky_pro.git ~/pinky_pro
 cd ~/pinky_pro
 colcon build
@@ -43,7 +54,7 @@ source install/setup.bash
 ros2 launch pinky_bringup bringup_robot.launch.xml
 ```
 
-터미널 2(이동 노드 실행):
+터미널 3(이동 노드 실행):
 
 ```bash
 cd ~/pinky_topview_ws
@@ -52,7 +63,7 @@ source install/setup.bash
 ros2 launch hs_topview point_move.launch.py
 ```
 
-터미널 3-1(A* 모드 실행):
+터미널 4-1(A* 모드 실행):
 
 ```bash
 cd ~/pinky_topview_ws
@@ -61,7 +72,7 @@ ros2 launch hs_topview waypoint_sender.launch.py use_astar:=true \
   start_waypoint:=R5C6 goal_waypoint:=R2C2
 ```
 
-터미널 3-2(selected_waypoints 모드 실행):
+터미널 4-2(selected_waypoints 모드 실행):
 
 ```bash
 cd ~/pinky_topview_ws
@@ -95,6 +106,9 @@ ros2 launch hs_topview waypoint_sender.launch.py selected_waypoints:=A,C,E
 
 ## Troubleshooting
 
+- `/amr_pose`가 들어오지 않아 로봇이 정지함
+  - `~/topview_ws`에서 `source install/setup.bash` 후 `ros2 run topview_localization topview_pose_node` 실행
+  - 참고 저장소(<https://github.com/hyuksoo0201/ros2_topview/tree/main>) 기준으로 `topview_ws` 구성 확인
 - `Action server 'pinky1/actions/move_to_pid' not available`
   - `ros2 launch hs_topview point_move.launch.py` 실행 상태 확인
   - `point_move.yaml`과 `waypoints.yaml`의 `action_name` 일치 확인
