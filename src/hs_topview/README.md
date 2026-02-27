@@ -1,47 +1,48 @@
 # hs_topview
 
-Top-view camera based navigation control package.
+Top-view camera 기반 주행 제어 패키지입니다.
+프로젝트 빠른 실행은 루트 문서([../../README.md](../../README.md))를 보고, 이 문서는 운영 옵션/정책을 확인할 때 사용합니다.
 
-## Runtime policy
+## Launch 사용법
 
-- Use `point_move` as the only `/cmd_vel` publisher in production.
-- Do not run `point_move` and `pid_controller` at the same time.
-- `pid_controller` is kept only for legacy/simple debugging.
-
-## Launch
+`point_move` 실행:
 
 ```bash
 ros2 launch hs_topview point_move.launch.py
 ```
 
-Optional custom params:
+`point_move.launch.py` 인자:
+
+- `params_file`: point_move 파라미터 YAML 경로
+
+예시:
 
 ```bash
 ros2 launch hs_topview point_move.launch.py \
   params_file:=/path/to/point_move.yaml
 ```
 
-Waypoint sequence sender launch:
+`waypoint_sender` 실행:
 
 ```bash
 ros2 launch hs_topview waypoint_sender.launch.py
 ```
 
-Optional custom waypoint file:
+`waypoint_sender.launch.py` 인자:
+
+- `waypoints_file`: waypoint YAML 경로
+- `selected_waypoints`: 쉼표 구분 이름 목록 (`A,C,E`)
+- `use_astar`: A* 모드 on/off (`true`/`false`)
+- `start_waypoint`: A* 시작 노드 이름 (`R1C1`)
+- `goal_waypoint`: A* 목표 노드 이름 (`R3C5`)
+
+예시:
 
 ```bash
 ros2 launch hs_topview waypoint_sender.launch.py \
-  waypoints_file:=/path/to/waypoints.yaml
-```
-
-Optional selected waypoint names:
-
-```bash
-ros2 launch hs_topview waypoint_sender.launch.py \
+  waypoints_file:=/home/pinky/pinky_topview_ws/src/hs_topview/params/waypoints.yaml \
   selected_waypoints:=A,C,E
 ```
-
-Optional A* planning mode:
 
 ```bash
 ros2 launch hs_topview waypoint_sender.launch.py \
@@ -50,140 +51,53 @@ ros2 launch hs_topview waypoint_sender.launch.py \
   goal_waypoint:=R3C5
 ```
 
-## Inputs and outputs
+## Runtime 인터페이스
 
-- Current pose input: `/amr_pose` (`geometry_msgs/PoseStamped`, frame `map`)
-- Goal input:
-  - Action: `pinky1/actions/move_to_pid` (`pinky_interfaces/action/MoveToPID`)
-  - Topic (optional): `/goal_pose` (`geometry_msgs/PoseStamped`)
-- Velocity output: `/cmd_vel` (`geometry_msgs/Twist`)
+- Pose 입력: `/amr_pose` (`geometry_msgs/PoseStamped`, frame `map`)
+- Goal 입력(topic): `/goal_pose` (`geometry_msgs/PoseStamped`, optional)
+- Goal 입력(action): `pinky1/actions/move_to_pid` (`pinky_interfaces/action/MoveToPID`)
+- 속도 출력: `/cmd_vel` (`geometry_msgs/Twist`)
+- 장애물 입력: `/obstacle_detected` (`std_msgs/Bool`)
 
-## Goal modes
+## waypoints.yaml 사용법
 
-- Single goal topic mode: publish one `PoseStamped` to `/goal_pose`.
-- Sequential waypoint mode: run `waypoint_sender` and it sends `MoveToPID` goals in order (e.g. `current -> A -> B`).
-- A* mode: run `waypoint_sender` with `use_astar:=true`; sender computes `start_waypoint -> goal_waypoint` path on `astar_waypoints` grid and sends goals sequentially.
+파일: `src/hs_topview/params/waypoints.yaml`
 
-Single goal example:
+주요 키:
 
-```bash
-ros2 topic pub --once /goal_pose geometry_msgs/msg/PoseStamped \
-"{header: {frame_id: map}, pose: {position: {x: 0.1, y: 0.45, z: 0.0}, orientation: {z: 1.0, w: 0.0}}}"
-```
+- `action_name`
+- `default_timeout_sec`
+- `stop_on_failure`
+- `waypoints` (일반 순차 주행)
+- `astar_grid`, `astar_blocked_waypoints`, `astar_waypoints` (A* 모드)
 
-Sequential goal example:
+regular waypoint 항목 규칙:
 
-```bash
-ros2 run hs_topview waypoint_sender --ros-args \
-  -p waypoints_file:=/home/pinky/pinky_topview_ws/src/hs_topview/params/waypoints.yaml
-```
+- `x`, `y`, `z`는 필수
+- `name`, `frame_id`, `timeout_sec`, `qx`, `qy`, `qz`, `qw`는 선택
+- quaternion은 4개(`qx,qy,qz,qw`)를 모두 쓰거나 모두 생략해야 함
+- quaternion 생략 시 `(0,0,0,1)` 사용
 
-Selected waypoint example:
+A* 항목 규칙:
 
-```bash
-ros2 run hs_topview waypoint_sender --ros-args \
-  -p waypoints_file:=/home/pinky/pinky_topview_ws/src/hs_topview/params/waypoints.yaml \
-  -p selected_waypoints:=A,C,E
-```
+- `astar_grid.naming`은 `row_col`만 지원
+- `astar_grid.connectivity`는 `4`만 지원
+- `astar_waypoints` 이름은 `R{row}C{col}` 형식이어야 함
+- `astar_blocked_waypoints`는 선택(차단 노드 목록)
 
-A* mode example:
+## 실행 정책
 
-```bash
-ros2 run hs_topview waypoint_sender --ros-args \
-  -p waypoints_file:=/home/pinky/pinky_topview_ws/src/hs_topview/params/waypoints.yaml \
-  -p use_astar:=true \
-  -p start_waypoint:=R1C1 \
-  -p goal_waypoint:=R3C5
-```
+- `selected_waypoints`가 비어있으면 `waypoints`를 YAML 순서대로 실행
+- `selected_waypoints`가 있으면 해당 이름 순서로 실행(대소문자 구분)
+- waypoint 이름 중복이 있으면 실패 처리
+- `use_astar:=true`면 regular `waypoints`와 `selected_waypoints`를 무시하고 `astar_waypoints`만 사용
+- `stop_on_failure: true`면 실패 즉시 종료, `false`면 다음 waypoint 계속 진행
 
-## Waypoint YAML schema
+## 실패/종료 시나리오
 
-`params/waypoints.yaml` uses this schema:
-
-```yaml
-action_name: pinky1/actions/move_to_pid
-default_timeout_sec: 60.0
-stop_on_failure: true
-waypoints:
-  - name: A
-    frame_id: map
-    x: 0.10
-    y: 0.45
-    z: 0.0
-    timeout_sec: 60.0
-
-astar_grid:
-  rows: 3
-  cols: 5
-  naming: row_col
-  connectivity: 4
-astar_blocked_waypoints: [R2C3]
-astar_waypoints:
-  - name: R1C1
-    frame_id: map
-    x: 0.10
-    y: 0.10
-    z: 0.0
-    timeout_sec: 60.0
-  - name: R1C2
-    frame_id: map
-    x: 0.50
-    y: 0.10
-    z: 0.0
-```
-
-Waypoint orientation policy:
-
-- `x,y,z` are required.
-- `qx,qy,qz,qw` are optional.
-- If orientation is omitted, sender uses default quaternion `(0,0,0,1)`.
-- If orientation is provided, all 4 quaternion fields must be provided.
-- If only some quaternion fields are provided, sender rejects that waypoint.
-
-Selected waypoint policy:
-
-- `selected_waypoints` is a comma-separated list of names, in execution order.
-- If `selected_waypoints` is empty, sender executes all waypoints in YAML order.
-- Name matching is exact and case-sensitive.
-- If a selected name does not exist in YAML, sender exits with failure.
-- If YAML contains duplicated waypoint names, sender exits with failure.
-- Repeated names in `selected_waypoints` are allowed (example: `A,B,A`).
-
-A* mode policy:
-
-- Enable with `use_astar: true` and set `start_waypoint`, `goal_waypoint`.
-- In A* mode, sender ignores regular `waypoints` and uses only `astar_waypoints`.
-- `selected_waypoints` is ignored while A* mode is active.
-- `astar_grid.naming` must be `row_col`; astar waypoint names must match `R{row}C{col}`.
-- `astar_grid.connectivity` currently supports only `4` (up/down/left/right).
-- `astar_blocked_waypoints` is optional and blocks A* nodes by waypoint name.
-- Start/goal cannot be blocked.
-- If no path exists, sender exits with failure.
-- If start equals goal, sender exits successfully without sending goals.
-
-Final align behavior:
-
-- `point_move.yaml` parameter `enable_final_align` controls final in-place yaw alignment.
-- `enable_final_align: false` -> stop immediately at position tolerance.
-- `enable_final_align: true` -> run final yaw alignment as before.
-
-Failure behavior:
-
-- Action server wait timeout: 10 seconds.
-- Invalid quaternion (`norm≈0`), goal reject, timeout, or abort:
-  - `stop_on_failure: true` -> stop immediately.
-  - `stop_on_failure: false` -> continue to next waypoint.
-- A* validation failure or A* no-path result -> stop immediately.
-- Empty waypoint list -> exit with warning.
-
-## Key parameters
-
-- `yaw_offset_rad`: camera yaw correction offset
-- `pose_timeout_sec`: emergency stop timeout for stale `/amr_pose`
-- `pose_frame_id`, `goal_frame_id`: frame validation
-- `ignore_goal_topic_during_action`: ignore `/goal_pose` while Action is active
-- `use_astar`: enable A* planning in `waypoint_sender`
-- `start_waypoint`, `goal_waypoint`: A* start/goal node names
-- `astar_grid`: A* grid metadata (`rows`, `cols`, `naming`, `connectivity`)
-- `astar_waypoints`: A* node list (must use `R{row}C{col}` names)
-- `astar_blocked_waypoints`: blocked nodes for A* planning
+- Action 서버 대기 시간 내 미기동: 즉시 실패 종료
+- Goal reject 또는 결과 수신 실패: 실패 처리(`stop_on_failure` 정책 적용)
+- Goal timeout: 실패 처리(`stop_on_failure` 정책 적용)
+- A* 입력 검증 실패(잘못된 grid/name 등): 즉시 실패 종료
+- A* no-path: 즉시 실패 종료
+- A*에서 start=goal: 성공 종료(이동 없음)
