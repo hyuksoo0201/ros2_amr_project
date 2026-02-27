@@ -16,9 +16,6 @@ Top-view camera 기반 ROS2 AMR waypoint 주행 프로젝트입니다.
     <img src="https://img.youtube.com/vi/stfRpe_FJLw/0.jpg" width="30%">
   </a>
 </p>
-https://youtu.be/Qj26KKkLirk
-https://youtu.be/U1CzlIJLetA
-https://youtu.be/stfRpe_FJLw
 
 ## 개요
 
