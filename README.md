@@ -1,11 +1,8 @@
 # ros2_amr_project
 
-Top-view camera 기반 ROS2 AMR waypoint 주행 프로젝트입니다.
-이 문서는 프로젝트를 빠르게 실행하는 입문 가이드입니다.
+Top-view camera 기반 실시간 위치 추정, A* 경로 탐색, PID 추종 제어를 통합한 ROS2 기반 AMR 자율주행 시스템입니다.
 
-Top-view camera 기반 실시간 위치 추정과 A* 경로 탐색, PID 제어를 통합한 ROS2 기반 AMR 자율주행 시스템입니다.
-
-본 프로젝트는 외부 카메라를 활용한 map 좌표계 정밀 localization과 waypoint 기반 자율 주행 파이프라인을 구현합니다.
+Homography 기반 map 좌표 변환과 Action 기반 이동 제어를 통해 waypoint 자율 주행 파이프라인을 구현하고 실제 로봇 주행으로 검증하였습니다.
 
 ## 🎬 Demo Videos
 
