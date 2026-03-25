@@ -49,7 +49,7 @@ x_map_refined = H_corr · H_cam→map · x_img
 
 격자 기반 환경에서 A* 알고리즘을 사용하여 최단 경로를 생성하였다.
 
-<img src="여기에_astar_이미지_URL" width="400"/>
+<img width="383" height="238" alt="image" src="https://github.com/user-attachments/assets/e6b776df-6b56-4901-97ea-91d2d4a17091" />
 
 - grid 기반 waypoint 정의  
 - 장애물 회피 경로 생성  
@@ -61,7 +61,7 @@ x_map_refined = H_corr · H_cam→map · x_img
 
 생성된 경로를 따라가기 위해 PID 기반 제어기를 설계하였다.
 
-<img src="여기에_pid_이미지_URL" width="400"/>
+<img width="537" height="211" alt="image" src="https://github.com/user-attachments/assets/8851faaa-6e56-4e90-bc82-33edd1c6ddfd" />
 
 - 입력: 목표 위치 (x_d, y_d, θ_d)  
 - 상태: 현재 위치 (x, y, θ)  
