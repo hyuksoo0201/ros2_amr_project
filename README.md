@@ -39,7 +39,7 @@ x_map_refined = H_corr · H_cam→map · x_img
 - H_corr : 실측 기반 보정 행렬  
 - x_img : 이미지 좌표  
 
-👉 이미지 좌표 → map 좌표 → 보정된 map 좌표 순으로 변환
+=> 이미지 좌표 → map 좌표 → 보정된 map 좌표 순으로 변환
 
 ---
 
@@ -67,7 +67,7 @@ x_map_refined = H_corr · H_cam→map · x_img
 - 상태: 현재 위치 (x, y, θ)  
 - 출력: 선속도 v, 각속도 ω  
 
-👉 경로 추종 오차를 기반으로 제어 입력 생성
+=> 경로 추종 오차를 기반으로 제어 입력 생성
 
 ---
 
