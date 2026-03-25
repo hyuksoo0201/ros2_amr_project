@@ -29,7 +29,7 @@ Homography 기반 map 좌표 변환과 Action 기반 이동 제어를 통해 way
 2. 이미지 좌표를 Homography 변환을 통해 map 좌표계로 변환  
 3. 보정 행렬(H_corr)을 적용하여 위치 오차 최소화  
 
-<img src="여기에_로컬라이제이션_이미지_URL" width="700"/>
+<img width="2000" height="379" alt="image" src="https://github.com/user-attachments/assets/d04292fd-41f5-4296-9f20-4f21b9d7980b" />
 
 #### Coordinate Transformation
 
@@ -39,7 +39,7 @@ x_map_refined = H_corr · H_cam→map · x_img
 - H_corr : 실측 기반 보정 행렬  
 - x_img : 이미지 좌표  
 
-=> 이미지 좌표 → map 좌표 → 보정된 map 좌표 순으로 변환
+⇒ 이미지 좌표 → map 좌표 → 보정된 map 좌표 순으로 변환
 
 ---
 
@@ -67,7 +67,7 @@ x_map_refined = H_corr · H_cam→map · x_img
 - 상태: 현재 위치 (x, y, θ)  
 - 출력: 선속도 v, 각속도 ω  
 
-=> 경로 추종 오차를 기반으로 제어 입력 생성
+⇒ 경로 추종 오차를 기반으로 제어 입력 생성
 
 ---
 
