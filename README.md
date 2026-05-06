@@ -2,15 +2,21 @@
 
 This project implements a ROS2-based AMR autonomous navigation system using a fixed top-view camera, ArUco marker localization, A* path planning, and PID control.
 
-Key contributions:
+## Key Contributions
+
 - Developed a top-view camera-based localization system using ArUco markers and homography transformation.
+- Applied camera calibration and map-frame correction to improve localization accuracy.
 - Integrated localization, path planning, and PID-based motion control in ROS2.
 - Implemented A* global path planning and waypoint-based autonomous navigation.
 - Improved localization error from 7 cm to 4 cm through calibration and correction.
 
-Tech Stack: ROS2, Python, OpenCV, ArUco, Homography, A*, PID Control
+## Tech Stack
 
-# ros2_amr_project
+ROS2, Python, OpenCV, ArUco, Homography, A*, PID Control
+
+---
+
+## 프로젝트 개요
 
 Top-view camera 기반 실시간 위치 추정, A* 경로 탐색, PID 추종 제어를 통합한 ROS2 기반 AMR 자율주행 시스템입니다.
 
