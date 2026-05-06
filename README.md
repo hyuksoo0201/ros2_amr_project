@@ -1,4 +1,4 @@
-# ROS2 Top-View Camera-Based AMR Localization and Control
+# Top-View Camera-Based AMR Localization and Control
 
 This project implements a ROS2-based AMR autonomous navigation system using a fixed top-view camera, ArUco marker localization, A* path planning, and PID control.
 
