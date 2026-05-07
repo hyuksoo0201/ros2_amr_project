@@ -47,7 +47,7 @@ Homography 기반 map 좌표 변환과 Action 기반 이동 제어를 통해 way
 2. 이미지 좌표를 Homography 변환을 통해 map 좌표계로 변환  
 3. 보정 행렬(H_corr)을 적용하여 위치 오차 최소화  
 
-<img width="602" height="126" alt="그림1" src="https://github.com/user-attachments/assets/9c10ce8c-be6d-4370-bc5d-834a16ba0f57" />
+<img width="2000" height="379" alt="그림1" src="https://github.com/user-attachments/assets/9c10ce8c-be6d-4370-bc5d-834a16ba0f57" />
 
 <img width="2000" height="379" alt="image" src="https://github.com/user-attachments/assets/d04292fd-41f5-4296-9f20-4f21b9d7980b" />
 
