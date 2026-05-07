@@ -1,3 +1,4 @@
+<img width="2013" height="227" alt="그림1" src="https://github.com/user-attachments/assets/33cb3222-0473-4232-951a-358d6188cad7" />
 # Top-View Camera-Based AMR Localization and Control
 
 This project implements a ROS2-based AMR autonomous navigation system using a fixed top-view camera, ArUco marker localization, A* path planning, and PID control.
@@ -48,6 +49,7 @@ Homography 기반 map 좌표 변환과 Action 기반 이동 제어를 통해 way
 3. 보정 행렬(H_corr)을 적용하여 위치 오차 최소화  
 
 <img width="602" height="126" alt="그림1" src="https://github.com/user-attachments/assets/9c10ce8c-be6d-4370-bc5d-834a16ba0f57" />
+<img width="2013" height="227" alt="그림1" src="https://github.com/user-attachments/assets/1a05705b-cbea-481a-b819-042e78505a1e" />
 
 #### Coordinate Transformation
 
