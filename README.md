@@ -12,7 +12,7 @@ This project implements a ROS2-based AMR autonomous navigation system using a fi
 
 ## Tech Stack
 
-ROS2, Python, OpenCV, ArUco, Homography, A*, PID Control
+Ubuntu, ROS2, Python, OpenCV, ArUco, Homography, A*, PID Control
 
 ---
 
