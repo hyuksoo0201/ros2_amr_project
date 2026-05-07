@@ -49,6 +49,8 @@ Homography 기반 map 좌표 변환과 Action 기반 이동 제어를 통해 way
 
 <img width="602" height="126" alt="그림1" src="https://github.com/user-attachments/assets/9c10ce8c-be6d-4370-bc5d-834a16ba0f57" />
 
+<img width="2000" height="379" alt="image" src="https://github.com/user-attachments/assets/d04292fd-41f5-4296-9f20-4f21b9d7980b" />
+
 #### Coordinate Transformation
 
 x_map_refined = H_corr · H_cam→map · x_img
