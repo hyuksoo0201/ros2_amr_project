@@ -67,7 +67,6 @@ x_map_refined = H_corr · H_cam→map · x_img
 
 격자 기반 환경에서 A* 알고리즘을 사용하여 최단 경로를 생성하였다.
 
-<img width="383" height="238" alt="image" src="https://github.com/user-attachments/assets/e6b776df-6b56-4901-97ea-91d2d4a17091" />
 <img width="602" height="381" alt="그림2" src="https://github.com/user-attachments/assets/33c450fd-a24f-40a9-9a89-e419bacb23d0" />
 
 
